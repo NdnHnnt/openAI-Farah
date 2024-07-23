@@ -45,10 +45,18 @@ document.getElementById("sendMessage").addEventListener("click", function () {
       body: `message=${encodeURIComponent(message)}`,
     })
       .then((response) => {
+        console.log(response.headers.get("Content-Type")); // Log the content type
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        console.log(response);
+        if (
+          !response.headers.get("Content-Type").includes("application/json")
+        ) {
+          throw new Error(
+            "Expected JSON response but received:",
+            response.headers.get("Content-Type")
+          );
+        }
         return response.json();
       })
       .then((data) => {
