@@ -2,7 +2,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 
-use Dotenv\Dotenv;
+// use Dotenv\Dotenv;
 use Orhanerday\OpenAi\OpenAi;
 
 // $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
@@ -78,8 +78,11 @@ class OpenAIController
 
     private function waitForRun($threadId, $runId)
     {
+        $startTime = time();
+        $timeout = 60; // Timeout after 60 seconds
+
         while (true) {
-            usleep(500000); // 500ms delay
+            usleep(5000000); // 5000ms delay
 
             $runResponse = $this->openai->retrieveRun($threadId, $runId);
             $run = json_decode($runResponse, true);
@@ -90,9 +93,28 @@ class OpenAIController
                 }
                 break;
             }
+
+            if ((time() - $startTime) > $timeout) {
+                throw new \Exception("Operation timed out.");
+            }
         }
 
         return $run;
+        // while (true) {
+        //     usleep(5000000); // 5000ms delay
+
+        //     $runResponse = $this->openai->retrieveRun($threadId, $runId);
+        //     $run = json_decode($runResponse, true);
+
+        //     if (!in_array($run['status'], ['queued', 'in_progress'])) {
+        //         if (in_array($run['status'], ['cancelled', 'cancelling', 'failed', 'expired'])) {
+        //             throw new \Exception($run['status']);
+        //         }
+        //         break;
+        //     }
+        // }
+
+        // return $run;
     }
 
     public function runAssistant()
