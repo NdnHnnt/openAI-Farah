@@ -56,6 +56,7 @@ document.getElementById("sendMessage").addEventListener("click", function () {
         ) {
           return response.text().then((text) => {
             try {
+              console.log("Converting text to JSON:", text);
               return JSON.parse(text);
             } catch (error) {
               console.error("Error converting text to JSON:", error);
