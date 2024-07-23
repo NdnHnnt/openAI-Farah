@@ -45,27 +45,7 @@ document.getElementById("sendMessage").addEventListener("click", function () {
       body: `message=${encodeURIComponent(message)}`,
     })
       .then((response) => {
-        console.log(response);
-        console.log(response.headers.get("Content-Type")); // Log the content type
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
-        if (
-          !response.headers.get("Content-Type").includes("application/json")
-        ) {
-          return response.text().then((text) => {
-            try {
-              console.log("Converting text to JSON:", text);
-              return JSON.parse(text);
-            } catch (error) {
-              console.error("Error converting text to JSON:", error);
-              throw new Error("Received non-JSON response");
-            }
-          });
-        } else {
-          return response.json();
-        }
+        return response.json();
       })
       .then((data) => {
         // Assuming data is now always JSON
@@ -109,9 +89,9 @@ function runAssistant(threadId, messageId) {
     )}&messageId=${encodeURIComponent(messageId)}`,
   })
     .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+      // if (!response.ok) {
+      //   throw new Error("Network response was not ok");
+      // }
       return response.json();
     })
     .then((data) => {
