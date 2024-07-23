@@ -49,20 +49,24 @@ document.getElementById("sendMessage").addEventListener("click", function () {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        if (!response.headers.get("Content-Type").includes("application/json"))
-          response.text().then((text) => {
+
+        if (
+          !response.headers.get("Content-Type").includes("application/json")
+        ) {
+          return response.text().then((text) => {
             try {
-              const jsonData = JSON.parse(text);
-              console.log("Converted to JSON:", jsonData);
-              // Handle the JSON data as needed
+              return JSON.parse(text);
             } catch (error) {
               console.error("Error converting text to JSON:", error);
-              // Handle the error (e.g., by showing an error message to the user)
+              throw new Error("Received non-JSON response");
             }
           });
-        return response.json();
+        } else {
+          return response.json();
+        }
       })
       .then((data) => {
+        // Assuming data is now always JSON
         threadId = data.threadId;
         const messageId = data.messageId;
         runAssistant(threadId, messageId);
