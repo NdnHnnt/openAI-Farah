@@ -37,7 +37,7 @@ document.getElementById("sendMessage").addEventListener("click", function () {
 
   if (!threadId) {
     // First message, need to get threadId
-    fetch("controller.php?action=post", {
+    fetch("api/controller.php?action=post", {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -70,7 +70,7 @@ function runAssistant(threadId, messageId) {
   chat.appendChild(loaderDiv);
   sendMessageButton.disabled = true;
 
-  fetch("controller.php?action=run", {
+  fetch("api/controller.php?action=run", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -105,7 +105,7 @@ function continueChat(message) {
   // Implement the logic to continue the chat using the existing threadId
   var chat = document.getElementById("chat");
   chat.innerHTML += `<div class="bubble right">${message}</div>`;
-  fetch("controller.php?action=post", {
+  fetch("api/controller.php?action=post", {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",

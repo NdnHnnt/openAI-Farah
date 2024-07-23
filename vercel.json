@@ -3,20 +3,9 @@
   "functions": {
     "api/*.php": {
       "runtime": "vercel-php@0.6.1"
-    },
-    "controller.php": {
-      "runtime": "vercel-php@0.6.1"
     }
   },
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/controller.php",
-      "dest": "/controller.php"
-    },
     {
       "src": "/(.*)",
       "dest": "/index.php"
