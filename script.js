@@ -44,11 +44,23 @@ document.getElementById("sendMessage").addEventListener("click", function () {
       },
       body: `message=${encodeURIComponent(message)}`,
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        console.log(response);
+        return response.json();
+      })
       .then((data) => {
         threadId = data.threadId;
         const messageId = data.messageId;
         runAssistant(threadId, messageId);
+      })
+      .catch((error) => {
+        console.error(
+          "There has been a problem with your fetch operation:",
+          error
+        );
       });
 
     //Add the input to chat
