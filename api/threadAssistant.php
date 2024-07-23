@@ -1,6 +1,7 @@
 <?php
 
 require '../vendor/autoload.php';
+echo __DIR__;
 
 use Dotenv\Dotenv;
 use Orhanerday\OpenAi\OpenAi;
