@@ -9,6 +9,10 @@
     {
       "src": "/(.*)",
       "dest": "/index.php"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     }
   ]
 }
