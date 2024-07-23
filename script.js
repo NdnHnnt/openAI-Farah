@@ -49,14 +49,17 @@ document.getElementById("sendMessage").addEventListener("click", function () {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        if (
-          !response.headers.get("Content-Type").includes("application/json")
-        ) {
-          throw new Error(
-            "Expected JSON response but received:",
-            response.headers.get("Content-Type")
-          );
-        }
+        if (!response.headers.get("Content-Type").includes("application/json"))
+          response.text().then((text) => {
+            try {
+              const jsonData = JSON.parse(text);
+              console.log("Converted to JSON:", jsonData);
+              // Handle the JSON data as needed
+            } catch (error) {
+              console.error("Error converting text to JSON:", error);
+              // Handle the error (e.g., by showing an error message to the user)
+            }
+          });
         return response.json();
       })
       .then((data) => {
