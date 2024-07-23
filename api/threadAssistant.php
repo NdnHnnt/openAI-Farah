@@ -67,11 +67,12 @@ class OpenAIController
         return $errors;
     }
 
-    private function sendResponse($data, $statusCode)
+    private function sendResponse($data, $statusCode = 200)
     {
-        http_response_code($statusCode);
         header('Content-Type: application/json');
+        http_response_code($statusCode);
         echo json_encode($data);
+        exit;
     }
 
     private function waitForRun($threadId, $runId)
@@ -135,5 +136,3 @@ class OpenAIController
         }
     }
 }
-
-
