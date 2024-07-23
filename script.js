@@ -45,6 +45,7 @@ document.getElementById("sendMessage").addEventListener("click", function () {
       body: `message=${encodeURIComponent(message)}`,
     })
       .then((response) => {
+        console.log(response);
         console.log(response.headers.get("Content-Type")); // Log the content type
         if (!response.ok) {
           throw new Error("Network response was not ok");
